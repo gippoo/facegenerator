@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.12.0"> </script>
+</head>
+
+<body>
+<script>
+function show() {
+	var numbers = document.getElementById("digits").value;
+    numbers = numbers.split(",");
+    console.log(numbers);
+    document.getElementById('numbers').innerHTML = numbers;
+    var arr = [];
+    var i;
+    for (i = 0; i < numbers.length; i++) {
+    	arr.push(Number(numbers[i]))
+    }
+    console.log(arr);
+    if (arr.length == 6) {
+    	tf.tensor2d(arr, [1,6]).print()
+    }
+}
+
+</script>
+
+
+
+<input type="text" id="digits" value="0, 3, 4, 5, 6, 7">
+<br>
+<button type="button" onclick="show()">Get</button>
+
+<p id="numbers"></p>
+<canvas id="myCanvas" width="200" height="100" style="border:1px solid #000000;">
+</canvas>
+<script>
+    var c = document.getElementById("myCanvas");
+    var ctx = c.getContext("2d");
+    var idata = ctx.createImageData(5, 5);
+    idata.data.set([0,0,0,255,0,0,0,255,0,0,0,255,0,0,0,255,0,0,0,255,]);
+    ctx.putImageData(idata, 0, 0);
+</script>
+
+</body>
+</html> 
