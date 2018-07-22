@@ -46,6 +46,8 @@ async function show() {
     var ctx = c.getContext("2d");
     var idata = ctx.createImageData(56, 56);
     idata.data.set(arr);
+    c.style.width = '50%';
+    c.style.height = 'auto';
     ctx.putImageData(idata, 0, 0);
     
     }   
