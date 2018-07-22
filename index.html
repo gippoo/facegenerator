@@ -6,31 +6,46 @@
 
 <body>
 <script>
-function show() {
+async function show() {
+	const generator = await tf.loadModel('https://gippoo.github.io/facegenerator/generator.json');
 	var numbers = document.getElementById("digits").value;
     numbers = numbers.split(",");
-    console.log(numbers);
-    document.getElementById('numbers').innerHTML = numbers;
-    var arr = [];
+    var inputs = [];
+	inputs[0] = Number(numbers[0]);
+    inputs[1] = Number(numbers[1]);
+    tensorinputs = tf.tensor2d([inputs]);
+    
+    var genimage = generator.predict(tensorinputs);
+    var genimgdata = genimage.dataSync();
+    
+    
     var i;
-    for (i = 0; i < 12544; i++) {
-    	arr.push(255)
+    for (i = 0, i < 9408; i++) {
+    	genimgdata[i] = (1 - genimdata[i]);
     }
     
-    var s = 0, d= 0;
+    var arr = []
+    for (i = 0; i < 12544; i++) {
+    	arr.push(1);
+    }
+    
+    
+    var s = 0, d = 0;
     while (d < 12544) {
-    	arr[d] = generated[s++];
-        arr[d++] = generated[s++];
-        arr[d++] = generated[s++];
+    	arr[d++] = genimgdata[s++];
+        arr[d++] = genimgdata[s++];
+        arr[d++] = gen[s++];
         d++;
     }
-        
     
     
-    console.log(arr);
-    if (arr.length == 6) {
-    	tf.tensor2d(arr, [1,6]).print()
-    }
+    var c = document.getElementById("myCanvas");
+    var ctx = c.getContext("2d");
+    var idata = ctx.createImageData(56, 56);
+    idata.data.set(arr);
+    ctx.putImageData(idata, 0, 0);
+    
+    
 }
 
 </script>
@@ -46,13 +61,6 @@ function show() {
 <p id="numbers"></p>
 <canvas id="myCanvas" width="56" height="56" style="border:1px solid #000000;">
 </canvas>
-<script>
-    var c = document.getElementById("myCanvas");
-    var ctx = c.getContext("2d");
-    var idata = ctx.createImageData(5, 5);
-    idata.data.set([0,0,0,255,0,0,0,255]);
-    ctx.putImageData(idata, 0, 0);
-</script>
 
 </body>
-</html> 
+</html>
