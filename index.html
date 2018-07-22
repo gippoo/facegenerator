@@ -38,11 +38,11 @@ async function show() {
         d++;
     }
     
-    
+
     var c = document.getElementById("myCanvas");
     var ctx = c.getContext("2d");
     var idata = ctx.createImageData(56, 56);
-    idata.data.set(arr);
+    idata.data.set([0,0,0,1,0,0,0,1,0,0,0,1]);
     ctx.putImageData(idata, 0, 0);
     
     
