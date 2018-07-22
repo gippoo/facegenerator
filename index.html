@@ -13,7 +13,7 @@ async function show() {
     var inputs = [];
 	inputs[0] = Number(numbers[0]);
     inputs[1] = Number(numbers[1]);
-    tensorinputs = tf.tensor2d([inputs]);
+    var tensorinputs = tf.tensor2d([inputs]);
     
     var genimage = generator.predict(tensorinputs);
     var genimgdata = genimage.dataSync();
@@ -43,7 +43,7 @@ async function show() {
     var c = document.getElementById("myCanvas");
     var ctx = c.getContext("2d");
     var idata = ctx.createImageData(56, 56);
-    idata.data.set([0,0,0,255,0,0,0,255,0,0,0,255]);
+    idata.data.set(arr);
     ctx.putImageData(idata, 0, 0);
     
     
