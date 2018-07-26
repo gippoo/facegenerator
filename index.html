@@ -15,7 +15,7 @@ async function show() {
 	
     if (inputs.length == 2) {
 	const generator = await tf.loadModel('https://gippoo.github.io/facegenerator/generator.json');
-    tf.tidy(() => {
+
     var tensorinputs = tf.tensor2d([inputs]);
     
     var genimage = generator.predict(tensorinputs);
@@ -48,7 +48,7 @@ async function show() {
     idata.data.set(arr);
     ctx.putImageData(idata, 0, 0);
 	  
-    });
+    tf.disposeVariables();
 	    
     console.log(tf.memory().numTensors);
     
