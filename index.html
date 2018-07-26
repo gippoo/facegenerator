@@ -15,6 +15,7 @@ async function show() {
 	
     if (inputs.length == 2) {
 	const generator = await tf.loadModel('https://gippoo.github.io/facegenerator/generator.json');
+    tf.tidy(() => {
     var tensorinputs = tf.tensor2d([inputs]);
     
     var genimage = generator.predict(tensorinputs);
@@ -40,13 +41,16 @@ async function show() {
         d++;
     }
     
-    console.log(arr);
 
     var c = document.getElementById("myCanvas");
     var ctx = c.getContext("2d");
     var idata = ctx.createImageData(56, 56);
     idata.data.set(arr);
     ctx.putImageData(idata, 0, 0);
+	  
+    });
+	    
+    console.log(tf.memory().numTensors);
     
     }   
 }
