@@ -55,12 +55,6 @@ async function show() {
     }   
 }
 
-document.getElementById("digits").addEventListener("keypress", function (event) {
-    if (event.which == 13 || event.keyCode == 13) {
-        show();
-    }
-});
-
 </script>
 
 
@@ -77,6 +71,14 @@ document.getElementById("digits").addEventListener("keypress", function (event) 
 
 <p><b>NOTE: There may be issues if you are on a mobile device.</b></p>
 <p><i>Done by training a multilayer autoencoder to encode an image to 2 values. Then threw away the encoder portion leaving the decoder.</i></p>
+
+<script>
+document.getElementById("digits").addEventListener("keypress", function (event) {
+    if (event.which == 13 || event.keyCode == 13) {
+        show();
+    }
+});
+</script>
 	
 </body>
 </html>
