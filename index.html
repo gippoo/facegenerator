@@ -7,13 +7,11 @@
 <body>
 <script>
 async function show() {
-		var numbers = document.getElementById("digits").value;
-    numbers = numbers.split(",");
     var inputs = [];
-	inputs[0] = Number(numbers[0]);
-    inputs[1] = Number(numbers[1]);
+	inputs[0] = document.getElementById("slider1").value;
+    inputs[1] = document.getElementById("slider2").value;
 	
-    if (inputs.length == 2) {
+    
 	const generator = await tf.loadModel('https://gippoo.github.io/facegenerator/generator.json');
     var tensorinputs = tf.tensor2d([inputs]);
     
@@ -48,17 +46,28 @@ async function show() {
 	  
     tf.disposeVariables();
 	 
-    }   
+       
 }
+function showVal1() {
+	var a = document.getElementById("slider1").value;
+    document.getElementById("num1").innerHTML = a;
+}
+	
+function showVal2() {
+	var b = document.getElementById("slider2").value;
+    document.getElementById("num2").innerHTML = b;
+}
+	
 </script>
 
 
 <h1>02/Ichigo Face Generator</h1>
 <p>Type 2 numbers separated by a comma in the text box below.</p>
 <p>The computer will try to create a 56x56 image of a (blurry) face based on the 2 numbers. <b>Numbers between 0-100 seem to work best.</b></p>
-<input type="text" id="digits" placeholder="Type 2 numbers here">
-<br>
-<button type="button" onclick="show()">Generate</button>
+  <p>Number1: <span id='num1'>50</span></p>
+  <input type="range" min="1" max="100" id='slider1' oninput="showVal1(), show();">
+    <p>Number2: <span id='num2'>50</span></p>
+  <input type="range" min="1" max="100" id='slider2' oninput="showVal2(), show();">
 
 <p id="numbers"></p>
 <canvas id="myCanvas" width="56" height="56">
@@ -66,14 +75,7 @@ async function show() {
 
 <p><b>NOTE: There may be issues if you are on a mobile device.</b></p>
 <p><i>Done by training a multilayer autoencoder to encode an image to 2 values. Then threw away the encoder portion leaving the decoder.</i></p>
-<input type="range" min="1" max="100" id='slider1'>
-<script>
-document.getElementById("digits").addEventListener("keypress", function (event) {
-    if (event.which == 13 || event.keyCode == 13) {
-        show();
-    }
-});
-</script>
+
 	
 </body>
 </html>
