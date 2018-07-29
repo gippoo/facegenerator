@@ -6,15 +6,21 @@
 
 <body>
 <script>
-async function show() {
-		var numbers = document.getElementById("digits").value;
+async function init() {
+	generator = await tf.loadModel('https://gippoo.github.io/facegenerator/generator.json');
+}
+	
+init();
+	
+function show() {
+	tf.tidy(() => {
+	var numbers = document.getElementById("digits").value;
     numbers = numbers.split(",");
     var inputs = [];
 	inputs[0] = Number(numbers[0]);
     inputs[1] = Number(numbers[1]);
 	
     if (inputs.length == 2) {
-	const generator = await tf.loadModel('https://gippoo.github.io/facegenerator/generator.json');
     var tensorinputs = tf.tensor2d([inputs]);
     
     var genimage = generator.predict(tensorinputs);
@@ -46,8 +52,8 @@ async function show() {
     idata.data.set(arr);
     ctx.putImageData(idata, 0, 0);
 	  
-    tf.disposeVariables();
-	 
+    });
+	console.log(tf.memory.numTensors);
     }   
 }
 </script>
