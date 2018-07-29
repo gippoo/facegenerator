@@ -68,9 +68,9 @@ function showVal2() {
 <p>Type 2 numbers separated by a comma in the text box below.</p>
 <p>The computer will try to create a 56x56 image of a (blurry) face based on the 2 numbers. <b>Numbers between 0-100 seem to work best.</b></p>
   <p id="num1">Number1: 50</p>
-  <input type="range" min="1" max="100" id='slider1' oninput="showVal1(), show();">
+  <input type="range" min="1" max="100" id='slider1' onchange="showVal1(), show();">
     <p id="num2">Number2: 50</p>
-  <input type="range" min="1" max="100" id='slider2' oninput="showVal2(), show();">
+  <input type="range" min="1" max="100" id='slider2' onchange="showVal2(), show();">
 
 <p id="numbers"></p>
 <canvas id="myCanvas" width="56" height="56">
