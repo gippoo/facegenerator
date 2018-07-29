@@ -7,13 +7,14 @@
 <body>
 <script>
 async function show() {
+		var numbers = document.getElementById("digits").value;
+    numbers = numbers.split(",");
     var inputs = [];
-	inputs[0] = document.getElementById("slider1").value;
-    inputs[1] = document.getElementById("slider2").value;
+	inputs[0] = Number(numbers[0]);
+    inputs[1] = Number(numbers[1]);
 	
     if (inputs.length == 2) {
 	const generator = await tf.loadModel('https://gippoo.github.io/facegenerator/generator.json');
-
     var tensorinputs = tf.tensor2d([inputs]);
     
     var genimage = generator.predict(tensorinputs);
@@ -39,7 +40,6 @@ async function show() {
         d++;
     }
     
-
     var c = document.getElementById("myCanvas");
     var ctx = c.getContext("2d");
     var idata = ctx.createImageData(56, 56);
@@ -48,29 +48,17 @@ async function show() {
 	  
     tf.disposeVariables();
 	 
-    }      
+    }   
 }
-
-function showVal1() {
-	var a = document.getElementById("slider1").value;
-    document.getElementById("num1").innerHTML = "Number1: " + a;
-}
-	
-function showVal2() {
-	var b = document.getElementById("slider2").value;
-    document.getElementById("num2").innerHTML = "Number2: " + b;
-}
-	
 </script>
 
 
 <h1>02/Ichigo Face Generator</h1>
 <p>Type 2 numbers separated by a comma in the text box below.</p>
 <p>The computer will try to create a 56x56 image of a (blurry) face based on the 2 numbers. <b>Numbers between 0-100 seem to work best.</b></p>
-  <p id="num1">Number1: 50</p>
-  <input type="range" min="1" max="100" id='slider1' onchange="showVal1(), show();">
-    <p id="num2">Number2: 50</p>
-  <input type="range" min="1" max="100" id='slider2' onchange="showVal2(), show();">
+<input type="text" id="digits" placeholder="Type 2 numbers here">
+<br>
+<button type="button" onclick="show()">Generate</button>
 
 <p id="numbers"></p>
 <canvas id="myCanvas" width="56" height="56">
@@ -78,7 +66,14 @@ function showVal2() {
 
 <p><b>NOTE: There may be issues if you are on a mobile device.</b></p>
 <p><i>Done by training a multilayer autoencoder to encode an image to 2 values. Then threw away the encoder portion leaving the decoder.</i></p>
-
+<input type="range" min="1" max="100" id='slider1'>
+<script>
+document.getElementById("digits").addEventListener("keypress", function (event) {
+    if (event.which == 13 || event.keyCode == 13) {
+        show();
+    }
+});
+</script>
 	
 </body>
 </html>
