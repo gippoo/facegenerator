@@ -14,11 +14,9 @@
 	
     function show() {
         tf.tidy(() => {
-	    var numbers = document.getElementById("digits").value;
-    	    numbers = numbers.split(",");
     	    var inputs = [];
-	    inputs[0] = Number(numbers[0]);
-    	    inputs[1] = Number(numbers[1]);
+	    inputs[0] = document.getElementById("num1").value
+    	    inputs[1] = document.getElementById("num2").value
 	
     	    if (inputs.length == 2) {
     	    var tensorinputs = tf.tensor2d([inputs]);
@@ -57,30 +55,30 @@
 	console.log(tf.memory().numTensors);
     
     }
+	
+function write() {
+	n1 = document.getElementById("num1").value
+	n2 = document.getElementById("num2").value
+	document.getElementById("n1").innerHTML = n1;
+	document.getElementById("n2").innerHTML = n2;
+}
 </script>
 
 
 <h1>02/Ichigo Face Generator</h1>
-<p>Type 2 numbers separated by a comma in the text box below.</p>
-<p>The computer will try to create a 56x56 image of a (blurry) face based on the 2 numbers. <b>Numbers between 0-100 seem to work best.</b></p>
-<input type="text" id="digits" placeholder="Type 2 numbers here">
-<br>
-<button type="button" onclick="show()">Generate</button>
+<p>Use the sliders to select 2 numbers.</p>
+<p>The computer will try to create a 56x56 image of a (blurry) face based on the 2 numbers.</p>
+<input type="range" min="1" max="100" value="50" class="slider" id="num1" onchange="write(), show();">
+<p>Number: <span id="n1"></span></p>
+<input type="range" min="1" max="100" value="50" class="slider" id="num2" onchange="write(), show();">
+<p>Number: <span id="n2"></span></p>
 
-<p id="numbers"></p>
 <canvas id="myCanvas" width="56" height="56">
 </canvas>
 
 <p><b>NOTE: There may be issues if you are on a mobile device.</b></p>
 <p><i>Done by training a multilayer autoencoder to encode an image to 2 values. Then threw away the encoder portion leaving the decoder.</i></p>
 
-<script>
-document.getElementById("digits").addEventListener("keypress", function (event) {
-    if (event.which == 13 || event.keyCode == 13) {
-        show();
-    }
-});
-</script>
 	
 </body>
 </html>
