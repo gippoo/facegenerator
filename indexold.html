@@ -6,50 +6,57 @@
 
 <body>
 <script>
-async function show() {
-		var numbers = document.getElementById("digits").value;
-    numbers = numbers.split(",");
-    var inputs = [];
-	inputs[0] = Number(numbers[0]);
-    inputs[1] = Number(numbers[1]);
+    async function init() {
+	generator = await tf.loadModel('https://gippoo.github.io/facegenerator/generator.json');
+    }
 	
-    if (inputs.length == 2) {
-	const generator = await tf.loadModel('https://gippoo.github.io/facegenerator/generator.json');
-    var tensorinputs = tf.tensor2d([inputs]);
+    init();
+	
+    function show() {
+        tf.tidy(() => {
+	    var numbers = document.getElementById("digits").value;
+    	    numbers = numbers.split(",");
+    	    var inputs = [];
+	    inputs[0] = Number(numbers[0]);
+    	    inputs[1] = Number(numbers[1]);
+	
+    	    if (inputs.length == 2) {
+    	    var tensorinputs = tf.tensor2d([inputs]);
     
-    var genimage = generator.predict(tensorinputs);
-    var genimgdata = genimage.dataSync();
+    	    var genimage = generator.predict(tensorinputs);
+    	    var genimgdata = genimage.dataSync();
     
     
-    var i;
-    for (i = 0; i < 9408; i++) {
-    	genimgdata[i] = Math.floor((1 - genimgdata[i])*255);
+    	    var i;
+    	    for (i = 0; i < 9408; i++) {
+    		    genimgdata[i] = Math.floor((1 - genimgdata[i])*255);
+    	    }
+    
+    	    var arr = [];
+    	    for (i = 0; i < 12544; i++) {
+    		arr.push(255);
+    	    }
+    
+    
+    	    var s = 0, d = 0;
+    	    while (d < 12544) {
+    		arr[d++] = genimgdata[s++];
+        	arr[d++] = genimgdata[s++];
+        	arr[d++] = genimgdata[s++];
+        	d++;
+    	    }
+    
+    	    var c = document.getElementById("myCanvas");
+    	    var ctx = c.getContext("2d");
+    	    var idata = ctx.createImageData(56, 56);
+    	    idata.data.set(arr);
+    	    ctx.putImageData(idata, 0, 0);
+	    }
+        });
+	    
+	console.log(tf.memory().numTensors);
+    
     }
-    
-    var arr = [];
-    for (i = 0; i < 12544; i++) {
-    	arr.push(255);
-    }
-    
-    
-    var s = 0, d = 0;
-    while (d < 12544) {
-    	arr[d++] = genimgdata[s++];
-        arr[d++] = genimgdata[s++];
-        arr[d++] = genimgdata[s++];
-        d++;
-    }
-    
-    var c = document.getElementById("myCanvas");
-    var ctx = c.getContext("2d");
-    var idata = ctx.createImageData(56, 56);
-    idata.data.set(arr);
-    ctx.putImageData(idata, 0, 0);
-	  
-    tf.disposeVariables();
-	 
-    }   
-}
 </script>
 
 
@@ -75,5 +82,8 @@ document.getElementById("digits").addEventListener("keypress", function (event) 
 });
 </script>
 	
+</body>
+</html>
+
 </body>
 </html>
